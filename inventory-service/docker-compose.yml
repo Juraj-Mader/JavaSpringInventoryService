@@ -46,9 +46,10 @@ services:
     depends_on:
       - kafka-broker
     environment:
-      KAFKA_CLUSTERS_NAME: local
-      KAFKA_CLUSTERS_BOOTSTRAPSERVERS: kafka-broker:29092
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-broker:29092
       DYNAMIC_CONFIG_ENABLED: 'true'
+
 
   kafka-schema-registry:
     image: confluentinc/cp-schema-registry:7.5.0
@@ -57,7 +58,7 @@ services:
     depends_on:
       - kafka-broker
     ports:
-      - "8083:8080"
+      - "8083:8081"
     environment:
       SCHEMA_REGISTRY_HOST_NAME: kafka-schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'kafka-broker:29092'

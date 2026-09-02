@@ -38,13 +38,15 @@ public class BookingService {
         final EventInventoryResponse inventoryResponse =
                 inventoryServiceClient.getInventory(request.getEventId());
         log.info("Inventory Response: {}", inventoryResponse);
-        if (customer == null) {
+        if (inventoryResponse.getCapacity() < request.getTicketCount()) {
             throw new RuntimeException("Not enough inventory");
         }
 
-        final BookingEvent bookingEvent = new BookingEvent();
-        kafkaTemplate.send("booking", bookingEvent);
-        log.info("booking sent to Kafka: {} ", bookingEvent);
+        final BookingEvent bookingEvent = createBookingEvent(request, customer, inventoryResponse);
+
+        kafkaTemplate.send("booking-events", bookingEvent);
+        log.info("booking sent to Kafka: {}", bookingEvent);
+
         return BookingResponse.builder()
                 .userId(bookingEvent.getUserId())
                 .eventId(bookingEvent.getEventId())
@@ -55,7 +57,7 @@ public class BookingService {
 
     private BookingEvent createBookingEvent ( final BookingRequest request,
                                               final Customer customer,
-                                              final InventoryResponse response){
+                                              final EventInventoryResponse response){
         return BookingEvent.builder()
                 .userId(customer.getId())
                 .eventId(request.getEventId())
