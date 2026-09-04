@@ -10,9 +10,9 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>inventory-service</artifactId>
-    <name>Inventory Service</name>
-    <description>Handles ticket inventory operations</description>
+    <artifactId>order-service</artifactId>
+    <name>Order Service</name>
+    <description>Handles ticket order operations</description>
 
     <dependencies>
         <dependency>

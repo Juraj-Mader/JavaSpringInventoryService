@@ -21,12 +21,12 @@ public class BookingService {
 
     private final CustomerRepository customerRepository;
     private final InventoryServiceClient inventoryServiceClient;
-    private final KafkaTemplate<String, BookingEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Autowired
     public BookingService(final CustomerRepository customerRepository,
                           final InventoryServiceClient inventoryServiceClient,
-                          final KafkaTemplate<String, BookingEvent> kafkaTemplate) {
+                          final KafkaTemplate<String, Object> kafkaTemplate) {
         this.customerRepository = customerRepository;
         this.inventoryServiceClient = inventoryServiceClient;
         this.kafkaTemplate = kafkaTemplate;
